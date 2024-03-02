@@ -46,14 +46,19 @@ app.post("/getTeacherInfo", async function (req, res) {
 });
 
 app.post("/addTeacher", async function (req, res) {
-  let reqBody = req.body;
-  console.log(
-    "Request received to add teacher. Req body: " + JSON.stringify(reqBody)
-  );
-  let data = await addTeacher(reqBody.id, reqBody.name, reqBody.age);
+  try {
+    let reqBody = req.body;
+    console.log(
+      "Request received to add teacher. Req body: " + JSON.stringify(reqBody)
+    );
+    let data = await addTeacher(reqBody.id, reqBody.name, reqBody.age);
 
-  res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(data));
+    res.setHeader("Content-Type", "application/json");
+    res.status(200).json(data); // Send response as JSON
+  } catch (error) {
+    console.error("Error adding teacher:", error);
+    res.status(500).json({ error: "Error adding teacher" }); // Send error response
+  }
 });
 
 app.post("/editTeacher", async function (req, res) {
