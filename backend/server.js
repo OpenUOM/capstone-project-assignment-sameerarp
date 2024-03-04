@@ -61,20 +61,15 @@ app.post("/addTeacher", async function (req, res) {
   }
 });
 
-app.post("/updateTeacher", async function (req, res) {
-  try {
-    let reqBody = req.body;
-    console.log(
-      "Request received to update teacher. Req body: " + JSON.stringify(reqBody)
-    );
-    let data = await addTeacher(reqBody.id, reqBody.name, reqBody.age);
+app.post("/editTeacher", async function (req, res) {
+  let reqBody = req.body;
+  console.log(
+    "Request received to update teacher. Req body: " + JSON.stringify(reqBody)
+  );
+  let data = await updateTeacher(reqBody.name, reqBody.age, reqBody.id);
 
-    res.setHeader("Content-Type", "application/json");
-    res.status(200).json(data); // Send response as JSON
-  } catch (error) {
-    console.error("Error updating teacher:", error);
-    res.status(500).json({ error: "Error updating teacher" }); // Send error response
-  }
+  res.setHeader("Content-Type", "application/json");
+  res.end(JSON.stringify(data));
 });
 
 app.post("/deleteTeacher", async function (req, res) {
@@ -87,6 +82,8 @@ app.post("/deleteTeacher", async function (req, res) {
   res.setHeader("Content-Type", "application/json");
   res.end(JSON.stringify(data));
 });
+
+
 
 // ============== Student Related endpoints ==============
 
@@ -144,5 +141,4 @@ app.post("/editStudent", async function (req, res) {
   res.setHeader("Content-Type", "application/json");
   res.end(JSON.stringify(data));
 });
-
 module.exports = app;

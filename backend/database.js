@@ -51,28 +51,34 @@ const readTeacherInfo = async (id) => {
 }
 
 const addTeacher = async (id, name, age) => {
-    const sql = `INSERT INTO teacher (id, name, age) VALUES (?, ?, ?)`;
-    try {
-        // Assuming knex_db is configured correctly
-        const result = await knex_db.raw(sql, [id, name, age]);
-        return result;
-    } catch (error) {
-        console.error("Error executing SQL query:", error);
-        throw error; // Propagate the error to the caller
-    }
-};
+    const sql = 'INSERT INTO teacher(id,name,age) values (?, ?, ?)'
+    return new Promise((resolve, reject) => {
+        knex_db
+            .raw(sql, [id, name, age])
+            .then(() => {
+                resolve({ status: "Successfully inserted Teacher" })
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+}
 
 const updateTeacher = async (name, age, id) => {
-    const sql = `UPDATE teacher SET name=?, age=? WHERE id=?`
-    try {
-        // Assuming knex_db is configured correctly
-        const result = await knex_db.raw(sql, [id, name, age]);
-        return result;
-    } catch (error) {
-        console.error("Error executing SQL query:", error);
-        throw error; // Propagate the error to the caller
-    }
-};
+    const sql = 'UPDATE teacher SET name=?, age=? WHERE id=?'
+    return new Promise((resolve, reject) => {
+        knex_db
+            .raw(sql, [name, age, id])
+            .then(() => {
+                resolve({ status: "Successfully updated Teacher" })
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+}
+
+
 
 const deleteTeacher = async (id) => {
     const sql = `DELETE FROM teacher WHERE id = ?`
@@ -117,16 +123,18 @@ const readStudentInfo = async (id) => {
 }
 
 const addStudent = async (id, name, age, hometown) => {
-    const sql = `INSERT INTO student (id, name, age, hometown) VALUES(?, ?, ?, ?);`
-    try {
-        // Assuming knex_db is configured correctly
-        const result = await knex_db.raw(sql, [id, name, age, hometown]);
-        return result;
-    } catch (error) {
-        console.error("Error executing SQL query:", error);
-        throw error; // Propagate the error to the caller
-    }
-};
+    const sql = 'INSERT INTO student(id, name, age, hometown) VALUES (?, ?, ?, ?)'
+    return new Promise((resolve, reject) => {
+        knex_db
+            .raw(sql, [id, name, age, hometown])
+            .then(() => {
+                resolve({ status: "Successfully inserted Student" });
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+}
 
 const updateStudent = async (name, age, hometown, id) => {
     const sql = `UPDATE student SET name=?, age=?, religion=? WHERE id=?`
